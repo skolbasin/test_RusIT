@@ -7,6 +7,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
+from django.core.cache import cache
 
 from .models import Table, Reservation
 from .serializers import ReservationSerializer
@@ -156,6 +157,11 @@ def check_table_availability(request: Request) -> Response:
     if not table_id or not date:
         return Response("Не указаны необходимые параметры", status=status.HTTP_400_BAD_REQUEST)
 
+    cache_key = f'table_availability_{table_id}_{date}'
+    cached_result = cache.get(cache_key)
+    if cached_result is not None:
+        return Response(cached_result)
+
     table_exists = Table.objects.filter(number=table_id).exists()
 
     if not table_exists:
@@ -164,7 +170,11 @@ def check_table_availability(request: Request) -> Response:
     reservations = Reservation.objects.annotate(date=TruncDate('date_time', output_field=DateField())).filter(date=date)
     for reservation in reservations:
         if str(reservation.table) == table_id:
-            return Response("Стол забронирован на указанную дату")
+            response = "Стол забронирован на указанную дату"
+            cache.set(cache_key, response, timeout=3600)
+            return Response(response)
 
-    return Response("Стол свободен для бронирования")
+    response = "Стол свободен для бронирования"
+    cache.set(cache_key, response, timeout=3600)
+    return Response(response)
 
