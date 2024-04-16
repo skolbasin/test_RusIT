@@ -162,7 +162,6 @@ def check_table_availability(request: Request) -> Response:
         return Response("Стол с указанным ID не существует")
 
     reservations = Reservation.objects.annotate(date=TruncDate('date_time', output_field=DateField())).filter(date=date)
-    print(reservations)
     for reservation in reservations:
         if str(reservation.table) == table_id:
             return Response("Стол забронирован на указанную дату")
