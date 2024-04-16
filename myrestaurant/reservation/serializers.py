@@ -1,11 +1,6 @@
 from rest_framework import serializers
-from .models import Table, Reservation
 
-
-class TableSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Table
-        fields = ['id', 'number', 'place_count']
+from .models import Reservation
 
 
 class ReservationSerializer(serializers.ModelSerializer):
