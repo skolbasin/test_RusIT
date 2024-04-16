@@ -8,37 +8,53 @@
 ```
 git clone https://github.com/skolbasin/test_RusIT.git
 ```
-2. Установить зависимости из файла requirements.txt:
+2. Подключите PosgreSQL:
+```
+docker-compose up -d
+```
+3. Создайте виртуальное окружение и активируйте его:
+- на Windows
+```
+python -m venv venv
+venv/Scripts/activate
+```
+- на Linux
+```
+python -m venv venv
+source venv/bin/activate
+```
+4. Установить зависимости из файла requirements.txt:
 ```
 pip install -r requirements.txt
 ```
-3. Выполнить миграции для создания структуры базы данных:
+5. Выполнить миграции:
+- на Windows
 ```
-python manage.py makemigrations
 python manage.py migrate
 ```
-либо на Linux:
+- на Linux:
 ```
 make migrate
 ```
-
-4. Запустить сервер :
-```
-python manage.py runserver
-```
-либо на Linux:
-```
-make run
-```
 5. Создайте суперюзера
+- на Windows
 ```
 python manage.py createsuperuser
 ```
-либо на Linux:
+- на Linux:
 ```
 make superuser
 ```
-6. После запуска сервера перейдите по адресу http://localhost:8000/admin и введи логин и пароль от суперюзера
+6. Запустить сервер:
+- на Windows
+```
+python manage.py runserver
+```
+- на Linux:
+```
+make run
+```
+7. После запуска сервера перейдите по адресу http://localhost:8000/admin и введи логин и пароль от суперюзера, чтобы попасть в административную панель 
 ## Админка
 В проекте настроена админка для удобства работы с моделями(admin.py)
 
