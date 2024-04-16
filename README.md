@@ -52,8 +52,26 @@ make superuser
 ## Работа API через POSTMAN
 
 ## API для добавления стола через POST запрос
+Чтобы добавить стол, нужно в форму внести данные для поля "number" и "place_count"
+![image](https://github.com/skolbasin/test_RusIT/assets/111511890/f93f58db-9b5a-4e65-92e3-2b9b20266470)
+Примечание: Добавлена проверка на наличие даного объекта в БД
+![image](https://github.com/skolbasin/test_RusIT/assets/111511890/54b4567b-0575-47ed-938d-862e976962f2)
+
 ## API для изменения данных о столе
+Для внесения изменений нужно указать "table_number" и "place_count"
+![image](https://github.com/skolbasin/test_RusIT/assets/111511890/d8316640-9050-487d-87d9-ac6398f2cb50)
+Примечание: добавлена проверка на наличие стола в базе и корректность внесения всех данных в форму
+![image](https://github.com/skolbasin/test_RusIT/assets/111511890/c137c814-e725-4b16-8753-215453d090ff)
+![image](https://github.com/skolbasin/test_RusIT/assets/111511890/a656e836-d774-4b5a-9728-0606fa4a4686)
+
 ## API для удаления стола
+Реализован через метод класса, но в комментариях есть вариант с использованием отдельным классом. 
+Чтобы удалить стол, нужно в методе DELETE В URL через query-параметры указать номер стола 
+![image](https://github.com/skolbasin/test_RusIT/assets/111511890/0023fe1d-9a3b-45c2-948a-c8455e1f70ce)
+Примечание: добавлена проверка на наличие стола в базе
+![image](https://github.com/skolbasin/test_RusIT/assets/111511890/ecc24bfc-bc1f-4597-93c3-112387cb9d05)
+
+
 ## API для создания бронирования
 ## API для удаления бронирования
 ## API для получения списка всех бронирований на указанную дату
