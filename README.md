@@ -119,4 +119,40 @@ python manage.py test
 ![image](https://github.com/skolbasin/test_RusIT/assets/111511890/8546eec2-67d5-48d3-8d66-a9822fce8e50)
 ![image](https://github.com/skolbasin/test_RusIT/assets/111511890/82530ede-7ba2-4e02-9119-b4c081793e08)
 
+### Redis
+В данноим проекте кеширование реализовано для endpoint с информацией о свободных столиках на конкретную дату на 1 час
+```
+@api_view(['GET'])
+def check_table_availability(request: Request) -> Response:
+    """
+     API для проверки стола на возможность бронирования на конкретную дату
+    :param request
+    :return: Response
+    """
+    table_id = request.GET.get('table_id')
+    date = request.GET.get('date')
 
+    if not table_id or not date:
+        return Response("Не указаны необходимые параметры", status=status.HTTP_400_BAD_REQUEST)
+
+    cache_key = f'table_availability_{table_id}_{date}'
+    cached_result = cache.get(cache_key)
+    if cached_result is not None:
+        return Response(cached_result)
+
+    table_exists = Table.objects.filter(number=table_id).exists()
+
+    if not table_exists:
+        return Response("Стол с указанным ID не существует")
+
+    reservations = Reservation.objects.annotate(date=TruncDate('date_time', output_field=DateField())).filter(date=date)
+    for reservation in reservations:
+        if str(reservation.table) == table_id:
+            response = "Стол забронирован на указанную дату"
+            cache.set(cache_key, response, timeout=3600) 
+            return Response(response)
+
+    response = "Стол свободен для бронирования"
+    cache.set(cache_key, response, timeout=3600)  
+    return Response(response)
+```
