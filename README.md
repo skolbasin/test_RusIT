@@ -14,6 +14,7 @@ git clone https://github.com/skolbasin/test_RusIT.git
 docker-compose up -d
 ```
 P.S. для успешной сборки контейнеров у Вас должен быть установлен Docker, docker-compose. Для подключения к БД необходимо установить PosgreSQL и создать БД в pgAdmin, введя хост - localhost, порт - 5432, имя базы данных, имя пользователя и пароль
+
 3. Создайте виртуальное окружение и активируйте его:
 - на Windows
 ```
